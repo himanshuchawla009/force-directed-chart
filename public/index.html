@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3: Force layout</title>
+		
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+		<style type="text/css">
+			/* No style rules here yet */
+		</style>
+	</head>
+	<body style="background-color: black">
+        <div id="des">
+            
+        </div>
+        <h3 align="center" style="color: white">click and drag to see in action</h3>
+		<script type="text/javascript">
+
+			//Width and height
+			var w = window.innerWidth;
+			var h = window.innerHeight;
+
+			//Original data
+			var dataset = {
+				nodes:
+    [
+        {label:"2016",number:"90",src:"http://vignette2.wikia.nocookie.net/pirates-online-legends/images/d/dc/Vignette_2016.png/revision/latest?cb=20160324182239"},
+        
+        {year:"2016",label:'sap labs16',number:"7",src:"http://lienketviet.net/pic/images/vestor30-01-2015/2016/0_02.png"},
+        {year:"2016",label:'infosys16',number:"34",src:"https://www.infosys.com/SiteCollectionImages/media-resources/infosys-logo-PNG.png"},
+        {year:"2016",label:'Aonhewlit',number:"2",src:"http://digitallearning.eletsonline.com/wp-content/uploads/2017/04/1200px-Aon_Corporation_logo.svg_.png"},
+        {year:"2016",label:'wipro',number:"45",src:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvJgBSOYe2LxCg9hDUiWlxFBaE9RXplHwEO5j7DOz0R8AZCB1F"},
+        {year:"2016",label:'accenture',number:"40",src:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Accenture.svg/2000px-Accenture.svg.png"},
+        {year:"2016",label:'mahindra',number:"13",src:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Tech_Mahindra_New_Logo.svg/618px-Tech_Mahindra_New_Logo.svg.png"},
+        {year:"2016",label:'concentrix',number:"19",src:"https://www.concentrix.com/wp-content/uploads/2016/08/cnx_logo_no_tag-1024x240.png"},
+        {year:"2016",label:'vivo',number:"5",src:"https://upload.wikimedia.org/wikipedia/commons/e/e5/Vivo_mobile_logo.png"},
+        {year:"2016",label:'csc',number:"3",src:"http://image3.mouthshut.com/images/imagesp/925661734s.png"},
+        {year:"2016",label:'cvent',number:"1",src:"http://www.cvent.com/en/images/media/cvent-logo-cmyk-png.png"},
+        {year:"2016",label:'zsaccociate',number:"7",src:"http://c.eqcdn.com/_5884142f5e7728c0a16331a084307269/onit/db/123/255/dark_logo.png"},
+        {year:"2017",label:"2017",number:"54",src:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQmxxY06EX8A4D_HLWzZ2duWF2O8-sLjccKMNYgsXljC2PYOte"},
+        {year:"2017",label:'hcl17',number:"5",src:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/HCL_Technologies_logo.svg/2000px-HCL_Technologies_logo.svg.png"},
+        {year:"2017",label:'zs associates17',number:"7",src:"http://c.eqcdn.com/_5884142f5e7728c0a16331a084307269/onit/db/123/255/dark_logo.png"},
+        {year:"2017",label:'infosys17',number:"25",src:"https://www.infosys.com/SiteCollectionImages/media-resources/infosys-logo-PNG.png"},
+        {year:"2017",label:'sap labs17',number:"6",src:"https://vignette.wikia.nocookie.net/logopedia/images/1/13/SAP-Logo.png/revision/latest/scale-to-width-down/640?cb=20141014003217llectionImages/media-resources/infosys-logo-PNG.png"},
+        {year:"2017",label:'vivo17',number:"5",src:"https://upload.wikimedia.org/wikipedia/commons/e/e5/Vivo_mobile_logo.png"},
+        {year:"2017",label:'amazon17',number:"6",src:"https://www.umom.org/wp-content/uploads/2015/07/Amazon-logo4.jpg"},
+        {year:"2015",label:'2015',number:"198",src:"http://dawgwoodspeedway.org/wp-content/uploads/2014/11/20151.png"},
+        {year:"2015",label:'tcs',number:"14",src:"https://upload.wikimedia.org/wikipedia/en/thumb/b/b1/Tata_Consultancy_Services_Logo.svg/1280px-Tata_Consultancy_Services_Logo.svg.png"},
+        {year:"2015",label:'mahindra',number:"30",src:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Tech_Mahindra_New_Logo.svg/618px-Tech_Mahindra_New_Logo.svg.png"},
+        {year:"2015",label:'concentrix',number:"19",src:"https://www.concentrix.com/wp-content/uploads/2016/08/cnx_logo_no_tag-1024x240.png"},
+        {year:"2015",label:'wipro',number:"48",src:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvJgBSOYe2LxCg9hDUiWlxFBaE9RXplHwEO5j7DOz0R8AZCB1F"},
+        {year:"2015",label:'infosys',number:"50",src:"https://www.infosys.com/SiteCollectionImages/media-resources/infosys-logo-PNG.png"},
+        {year:"2015",label:'sap',number:"1",src:"https://vignette.wikia.nocookie.net/logopedia/images/1/13/SAP-Logo.png/revision/latest/scale-to-width-down/640?cb=20141014003217llectionImages/media-resources/infosys-logo-PNG.png"},
+        {year:"2015",label:'newgen',number:"2",src:"http://www.latestoffcampus.com/wp-content/uploads/2012/05/Newgen-Software-Technologies.png"},
+        {year:"2015",label:'csc',number:"11",src:"http://image3.mouthshut.com/images/imagesp/925661734s.png"},
+        {year:"2015",label:'software one',number:"12",src:"http://media.merixstudio.com/uploads/softwareone_logo.jpg"},
+        {year:"2015",label:'tcs ignite',number:"3",src:"https://upload.wikimedia.org/wikipedia/en/thumb/b/b1/Tata_Consultancy_Services_Logo.svg/1280px-Tata_Consultancy_Services_Logo.svg.png"},
+        {year:"2015",label:'zs accos',number:"4",src:"http://c.eqcdn.com/_5884142f5e7728c0a16331a084307269/onit/db/123/255/dark_logo.png"},
+        {year:"2015",label:'century links',number:"4",src:"https://vignette1.wikia.nocookie.net/logopedia/images/4/47/CenturyLink.png/revision/latest?cb=20111019032256"},
+        
+       
+
+    ],
+ edges:[
+    
+    {source:0,target:1},
+    {source:0,target:2},
+    
+    {source:0,target:3},
+    {source:0,target:4},
+    {source:0,target:5},
+    {source:0,target:6},
+    {source:0,target:7},
+    {source:0,target:8},
+    {source:0,target:9},
+    {source:0,target:10},
+    {source:0,target:11},
+    {source:12,target:13},
+    {source:12,target:14},
+    {source:12,target:15},
+    {source:12,target:16},
+    {source:12,target:17},
+    {source:12,target:18},
+    
+    {source:19,target:20},
+    {source:19,target:21},
+    {source:19,target:22},
+    {source:19,target:23},
+    {source:19,target:24},
+    {source:19,target:25},
+    {source:19,target:26},
+    {source:19,target:27},
+    {source:19,target:28},
+    {source:19,target:29},
+    {source:19,target:30},
+    {source:19,target:31},
+    {source:0,target:12},
+    {source:12,target:19}
+
+    
+]
+			};
+
+			//Initialize a default force layout, using the nodes and edges in dataset
+            var force = d3.forceSimulation(dataset.nodes)
+            .force("charge",d3.forceManyBody().strength(-15))
+            .force("link",d3.forceLink(dataset.edges).distance(170))
+            .force("center",d3.forceCenter().x(w/2).y(h/2));
+
+            const dragDrop = d3.drag()
+  .on('start', node => {
+    node.fx = node.x
+    node.fy = node.y
+    document.getElementById("des").innerHTML="<h2 style='color:red'>" + node.number + " " + "students placed in"+ " " + node.label + " " + "in year" + " " + node.year + "</h2>"
+  })
+  .on('drag', node => {
+    force.alphaTarget(0.7).restart()
+
+    node.fx = d3.event.x
+    node.fy = d3.event.y
+ 
+  })
+  .on('end', node => {
+    if (!d3.event.active) {
+      force.alphaTarget(0)
+      
+
+    }
+   
+    node.fx = null
+    
+    node.fy = null
+  })
+
+			//Create SVG element
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+			
+			//Create edges as lines
+			var edges = svg.selectAll("line")
+				.data(dataset.edges)
+				.enter()
+				.append("line")
+				.style("stroke", "aqua")
+                .style("stroke-width", 1);
+                
+			
+			//Create nodes as circles
+			var nodes = svg.selectAll("image")
+				.data(dataset.nodes)
+				.enter()
+                .append("image")
+                .attr("xlink:href",function(d){
+                    return d.src;
+                })
+                .attr("height", 100)
+                .attr("width",100)
+                .attr("dx",15)
+                .attr("dy",4);
+                
+               
+                var dots=svg.selectAll("circle")
+                .data(dataset.nodes)
+                .enter()
+                .append("circle")
+                .attr("r",'10')
+                .style("fill","red")
+                .call(dragDrop);
+  
+    
+			//Every time the simulation "ticks", this will be called
+			force.on("tick", function() {
+
+				edges.attr("x1", function(d) { return d.source.x; })
+					 .attr("y1", function(d) { return d.source.y; })
+					 .attr("x2", function(d) { return d.target.x; })
+                     .attr("y2", function(d) { return d.target.y; });
+                     dots.attr("cx",function(d){
+                          return d.x;
+                     })
+                     .attr("cy",function(d){
+                         return d.y;
+                     });
+			
+				nodes.attr("x", function(d) {
+                    return d.x; })
+                     .attr("y", function(d) { return d.y; });
+
+        
+			});
+
+
+		</script>
+	</body>
+</html>
